@@ -1,8 +1,8 @@
 {
-  "vendors.css": "/sock-client-stomp/static/css/vendors.86e84de41e06323103b3.css",
+  "vendors.css": "/sock-client-stomp/static/css/vendors.e142e85d17c2f743987e.css",
   "vendors.js": "/sock-client-stomp/static/js/vendors.172afce1.js",
-  "1-home.js": "/sock-client-stomp/static/js/1-home.adbe607c.js",
+  "1-home.js": "/sock-client-stomp/static/js/1-home.c2cbed8e.js",
   "2-contribute.js": "/sock-client-stomp/static/js/2-contribute.773cbf26.js",
-  "app.js": "/sock-client-stomp/static/js/app.86e84de41e06323103b3.js",
+  "app.js": "/sock-client-stomp/static/js/app.e142e85d17c2f743987e.js",
   "index.html": "/sock-client-stomp/index.html"
 }
