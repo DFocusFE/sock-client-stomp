@@ -5,7 +5,16 @@
 ![][dt-url]
 ![][license-url]
 
-Project based high level abstraction of SSP
+Project based high level abstraction of SSP.
+
+`sock-client-stomp` is made for high level business scenarios. It consists of following features:
+
+- re-connect
+- authentication by token
+- project based, let's say you are working on a SaaS platform, several projects may watch for SPP individually
+- easy to subscribe messages for current user
+- easy to subscribe broadcast messages
+- no need to worry about re-subscribe process whenever re-connect triggered
 
 ## Install
 
