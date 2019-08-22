@@ -7,7 +7,7 @@
 
 Project based high level abstraction of SSP.
 
-`sock-client-stomp` is made for high level business scenarios. It consists of following features:
+`sock-client-stomp` is made for domain specific business scenarios. It consists of following features:
 
 - re-connect
 - authentication by token
