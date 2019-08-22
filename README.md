@@ -11,7 +11,7 @@ Project based high level abstraction of SSP.
 
 - re-connect
 - authentication by token
-- project based, let's say you are working on a SaaS platform, several projects may watch for SPP individually
+- project based, let's say you are working on a SaaS platform, several projects may watch for SSP individually
 - easy to subscribe messages for current user
 - easy to subscribe broadcast messages
 - no need to worry about re-subscribe process whenever re-connect triggered
