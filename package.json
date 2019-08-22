@@ -1,6 +1,6 @@
 {
   "name": "sock-client-stomp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Project based high level abstraction of SSP",
   "scripts": {
     "start": "father doc dev",

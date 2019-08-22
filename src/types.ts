@@ -7,7 +7,8 @@ export enum CONNECT_STATE {
 }
 
 export enum BREAK_REASON {
-  INVALID_TOKEN
+  INVALID_TOKEN,
+  MANUAL_DISCONNECT
 }
 
 interface RetryOpts {

@@ -56,6 +56,7 @@ export class SockClient {
   public disconnect() {
     try {
       this.changeState(CONNECT_STATE.DISCONNECTED)
+      this.setBreakReason(BREAK_REASON.MANUAL_DISCONNECT, false)
 
       this._stateChangeCallbacks = []
       this._broadcastCallbacks = {}
@@ -170,6 +171,11 @@ export class SockClient {
           // we should just leave the callback if _breakReason from last call exist and match invalid_token
           return
         }
+
+        if (this._breakReason === BREAK_REASON.MANUAL_DISCONNECT) {
+          // do not re-connect if it is disconnected manually
+          return
+        }
         // quit here since token is checked as invalid by server
         // no need to re-connect with same arguments
         if (
@@ -178,7 +184,7 @@ export class SockClient {
           error['headers']['message'] &&
           error['headers']['message'].includes('Failed to send message')
         ) {
-          this.setBreakReason(BREAK_REASON.INVALID_TOKEN)
+          this.setBreakReason(BREAK_REASON.INVALID_TOKEN, true)
           return
         }
 
@@ -203,13 +209,15 @@ export class SockClient {
     }, retryTimeout)
   }
 
-  private setBreakReason(reason: BREAK_REASON) {
+  private setBreakReason(reason: BREAK_REASON, needClear: boolean) {
     this._breakReason = reason
 
-    // clear _breakReason in 2s
-    setTimeout(() => {
-      this._breakReason = null
-    }, 2000)
+    if (needClear) {
+      // clear _breakReason in 2s
+      setTimeout(() => {
+        this._breakReason = null
+      }, 2000)
+    }
   }
 }
 
