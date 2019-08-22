@@ -19,8 +19,8 @@ export class SockClient {
   private _singleSubscribeCallback: Array<SingleSubscribeCallback>
   private _subscriptions: Array<Stomp.Subscription>
   private _breakReason: BREAK_REASON
-  private socket: WebSocket
-  private stompClient: Stomp.Client
+  private _socket: WebSocket
+  private _stompClient: Stomp.Client
 
   constructor(opts: SocketOpts) {
     this._opts = opts
@@ -45,15 +45,15 @@ export class SockClient {
     })
   }
 
-  connect() {
-    if (this.socket || this.stompClient) {
+  public connect() {
+    if (this._socket || this._stompClient) {
       throw new Error('You cannot call connect multiple times')
     }
 
     this.connectToWebsocket()
   }
 
-  disconnect() {
+  public disconnect() {
     try {
       this.changeState(CONNECT_STATE.DISCONNECTED)
 
@@ -62,9 +62,9 @@ export class SockClient {
       this._singleSubscribeCallback = []
       this._subscriptions = []
 
-      const socket = this.socket
-      this.socket = null
-      this.stompClient = null
+      const socket = this._socket
+      this._socket = null
+      this._stompClient = null
 
       socket.close()
     } catch (error) {
@@ -72,7 +72,7 @@ export class SockClient {
     }
   }
 
-  onStateChange(cb: StateChangeCallback) {
+  public onStateChange(cb: StateChangeCallback) {
     if (!cb) {
       return
     }
@@ -99,7 +99,7 @@ export class SockClient {
     const topics = Object.keys(this._broadcastCallbacks)
 
     topics.forEach(topic => {
-      const subscription = this.stompClient.subscribe(
+      const subscription = this._stompClient.subscribe(
         `/topic/${this._opts.projectId}/${topic}`,
         arg => {
           this._broadcastCallbacks[topic].forEach(cb => {
@@ -110,11 +110,14 @@ export class SockClient {
       this._subscriptions.push(subscription)
     })
 
-    const subscription = this.stompClient.subscribe(`/user/queue/${this._opts.projectId}/`, arg => {
-      this._singleSubscribeCallback.forEach(cb => {
-        cb(arg)
-      })
-    })
+    const subscription = this._stompClient.subscribe(
+      `/user/queue/${this._opts.projectId}/`,
+      arg => {
+        this._singleSubscribeCallback.forEach(cb => {
+          cb(arg)
+        })
+      }
+    )
     this._subscriptions.push(subscription)
   }
 
@@ -124,7 +127,7 @@ export class SockClient {
     })
   }
 
-  subscribeBroadcast(topic: string, cb: BroadcastCallback) {
+  public subscribeBroadcast(topic: string, cb: BroadcastCallback) {
     if (!topic || !cb) {
       throw new Error('topic, cb cannot be undefined/null')
     }
@@ -136,7 +139,7 @@ export class SockClient {
     }
   }
 
-  subscribeForCurrentUser(cb: SingleSubscribeCallback) {
+  public subscribeForCurrentUser(cb: SingleSubscribeCallback) {
     if (this._singleSubscribeCallback.every(c => c !== cb)) {
       this._singleSubscribeCallback.push(cb)
     }
@@ -144,14 +147,14 @@ export class SockClient {
 
   private connectToWebsocket() {
     const { base } = this._opts
-    this.socket = SockJS(base)
-    this.stompClient = Stomp.over(this.socket)
+    this._socket = SockJS(base)
+    this._stompClient = Stomp.over(this._socket)
     const { token, projectId } = this._opts
 
     this.changeState(CONNECT_STATE.CONNECTING)
     console.debug('Trying to connect to Websocket Server...')
 
-    this.stompClient.connect(
+    this._stompClient.connect(
       {
         token,
         projectId
