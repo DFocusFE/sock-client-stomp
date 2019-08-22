@@ -1,25 +1,24 @@
-# axios-last
+# sock-client-stomp
 
 [![NPM version][npm-image]][npm-url]
-![][travis-url]
 ![][david-url]
 ![][dt-url]
 ![][license-url]
 
-Solution for taking the last value from multiple calls
+Project based high level abstraction of SSP
 
 ## Install
 
 ### yarn
 
 ```bash
-yarn add axios-last
+yarn add sock-client-stomp
 ```
 
 ### npm
 
 ```bash
-npm install --save axios-last
+npm install --save sock-client-stomp
 ```
 
 ## Import
@@ -27,43 +26,50 @@ npm install --save axios-last
 ### ES2015
 
 ```javascript
-import { create } from 'axios-last'
+import { SockClient } from 'sock-client-stomp'
 ```
 
 ### CommonJS
 
 ```javascript
-const { create } = require('axios-last')
+const { SockClient } = require('sock-client-stomp')
 ```
 
 ## Usage
 
 ```javascript
-import { create } from 'axios-last'
+import { SockClient } from 'sock-client-stomp'
 
-const request = create()
+const socket = new SockClient({
+  base: 'http://demo.ssp.com/msg-center/websocket',
+  token: 'your token for authentication',
+  projectId: 'project you are going to watch',
+  // set to false to disable reconnect feature
+  reconnect: {
+    timeout: 30 * 1000
+  }
+})
 
-for (let i = 0; i < 3; i++) {
-  request({
-    method: 'GET',
-    url: 'https://test.com/users',
-    params: {
-      name: i
-    }
-  }).then(res => {
-    // only request with name === 2 received
-    // all previous requests were cancelled while subsequent made
-  })
-}
+// watch every connection state change
+socket.onStateChange(state => {
+  console.log('state changed to', state)
+})
+
+// subscribe broadcast info
+socket.subscribeBroadcast('topic your are going to watch', arg => {
+  console.log(arg)
+})
+
+// connect
+socket.connect()
 ```
 
 ## LICENSE
 
-[MIT License](https://raw.githubusercontent.com/leftstick/axios-last/master/LICENSE)
+[MIT License](https://raw.githubusercontent.com/leftstick/sock-client-stomp/master/LICENSE)
 
-[npm-url]: https://npmjs.org/package/axios-last
-[npm-image]: https://badge.fury.io/js/axios-last.png
-[travis-url]: https://api.travis-ci.com/leftstick/axios-last.svg?branch=master
-[david-url]: https://david-dm.org/leftstick/axios-last.png
-[dt-url]: https://img.shields.io/npm/dt/axios-last.svg
-[license-url]: https://img.shields.io/npm/l/axios-last.svg
+[npm-url]: https://npmjs.org/package/sock-client-stomp
+[npm-image]: https://badge.fury.io/js/sock-client-stomp.png
+[david-url]: https://david-dm.org/leftstick/sock-client-stomp.png
+[dt-url]: https://img.shields.io/npm/dt/sock-client-stomp.svg
+[license-url]: https://img.shields.io/npm/l/sock-client-stomp.svg

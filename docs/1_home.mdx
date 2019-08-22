@@ -28,7 +28,7 @@ npm install sock-client-stomp
 ```javascript
 import { SockClient } from 'sock-client-stomp'
 
-this.socket = new SockClient({
+const socket = new SockClient({
   base: 'http://demo.ssp.com/msg-center/websocket',
   token: 'your token for authentication',
   projectId: 'project you are going to watch',
@@ -39,18 +39,15 @@ this.socket = new SockClient({
 })
 
 // watch every connection state change
-this.socket.onStateChange(state => {
-  this.setState({
-    connectState: state
-  })
+socket.onStateChange(state => {
+  console.log('state changed to', state)
 })
 
 // subscribe broadcast info
-this.socket.subscribeBroadcast('topic your are going to watch', arg => {
+socket.subscribeBroadcast('topic your are going to watch', arg => {
   console.log(arg)
-  message.info(JSON.parse(arg.body).content)
 })
 
 // connect
-this.socket.connect()
+socket.connect()
 ```
