@@ -66,10 +66,10 @@ socket.connect()
 
 ## LICENSE
 
-[MIT License](https://raw.githubusercontent.com/leftstick/sock-client-stomp/master/LICENSE)
+[MIT License](https://raw.githubusercontent.com/DFocusFE/sock-client-stomp/master/LICENSE)
 
 [npm-url]: https://npmjs.org/package/sock-client-stomp
 [npm-image]: https://badge.fury.io/js/sock-client-stomp.png
-[david-url]: https://david-dm.org/leftstick/sock-client-stomp.png
+[david-url]: https://david-dm.org/DFocusFE/sock-client-stomp.png
 [dt-url]: https://img.shields.io/npm/dt/sock-client-stomp.svg
 [license-url]: https://img.shields.io/npm/l/sock-client-stomp.svg
