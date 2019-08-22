@@ -1,0 +1,56 @@
+---
+name: Getting Started
+route: /
+---
+
+## Why sock-client-stomp
+
+Once you are seeking for a websocket solution, [sockjs-client](https://github.com/sockjs/sockjs-client) and [stomp](http://jmesnil.net/stomp-websocket/doc/) might be your choice.
+
+`sock-client-stomp` is made for few useful features(like: reconnect), project based(close to your business)
+
+## Installation
+
+### yarn
+
+```bash
+yarn add sock-client-stomp
+```
+
+### npm
+
+```bash
+npm install sock-client-stomp
+```
+
+## Usage
+
+```javascript
+import { SockClient } from 'sock-client-stomp'
+
+this.socket = new SockClient({
+  base: 'http://demo.ssp.com/msg-center/websocket',
+  token: 'your token for authentication',
+  projectId: 'project you are going to watch',
+  // set to false to disable reconnect feature
+  reconnect: {
+    timeout: 30 * 1000
+  }
+})
+
+// watch every connection state change
+this.socket.onStateChange(state => {
+  this.setState({
+    connectState: state
+  })
+})
+
+// subscribe broadcast info
+this.socket.subscribeBroadcast('topic your are going to watch', arg => {
+  console.log(arg)
+  message.info(JSON.parse(arg.body).content)
+})
+
+// connect
+this.socket.connect()
+```
