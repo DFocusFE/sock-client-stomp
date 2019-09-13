@@ -5,6 +5,12 @@
 ![][dt-url]
 ![][license-url]
 
+
+## Deprecated
+
+Do not use it any more. Please refer to [socket.io.client.biz](https://github.com/DFocusGroup/socket.io.client.biz) instead
+
+
 Project based high level abstraction of SSP.
 
 `sock-client-stomp` is made for domain specific business scenarios. It consists of following features:
